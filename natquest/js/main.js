@@ -1,6 +1,7 @@
 import customEmitter from './scenes/utils/globalUtils/emitter.js';
 import './scenes/utils/globalUtils/firebase.js';
 import './game.js';
+//test
 
 import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from './firebase.js';
 
