@@ -75,7 +75,8 @@ export default class OverlayScene extends Phaser.Scene {
         console.log(this.inventoryContainer.itemSlotContainers);
         console.log(this.inventoryContainer.itemIconContainers);
      //   this.inventory.initializeInventoryItems(this);
-       // this.inventory.initializeDragAndDrop(this);
+        // this.inventory.initializeDragAndDrop(this);
+        //change?
     console.log(this.inventoryContainer);
     console.log(this.inventory.items);
 
