@@ -70,6 +70,7 @@ export default class OverlayScene extends Phaser.Scene {
         this.inventory.addItem(this, itemsListFull.poisonPotionWeak);
         this.inventory.addItem(this, itemsListFull.poisonPotionWeak);
         this.inventory.addItem(this, itemsListFull.wealthPotion);
+        console.log(itemsListFull.healthPotionWeak);
 
         console.log(this.inventory.items);
         console.log(this.inventoryContainer.itemSlotContainers);
