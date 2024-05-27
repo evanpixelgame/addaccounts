@@ -155,8 +155,8 @@ export default class Inventory {
     const itemIconContainers = scene.inventoryContainer.itemIconContainers;
     const index = this.items.indexOf(item);
     console.log(index);
-    if (index !== -1) {
-      this.items.splice(index, 1);
+    if (existingItemIndex !== -1) {
+      this.items.splice(existingItemIndex, 1);
     }
 
     itemIconContainers.forEach((container) => {
