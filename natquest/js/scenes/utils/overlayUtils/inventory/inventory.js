@@ -124,7 +124,9 @@ export default class Inventory {
         itemQuant.fontSize = "12px";
         itemQuant.fill = "#ffffff";
         itemQuant.setDepth(1000);
-
+        if (!item.stackable) {
+          itemQuant.setVisible(false);
+        }
       
 
 
