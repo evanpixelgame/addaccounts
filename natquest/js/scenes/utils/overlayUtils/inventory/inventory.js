@@ -154,7 +154,7 @@ export default class Inventory {
     }
   }
   }
-  
+
 
   removeItem(scene, item) { //scene refers to OverlayScene and item refers to the ItemIcon
 
