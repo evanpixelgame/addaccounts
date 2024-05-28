@@ -61,7 +61,7 @@ export default class Inventory {
       console.log(item);
       console.log('scene.inventoryContainer.sprites:');
       console.log(scene.inventoryContainer.sprites);
-      console.log('scene.inventoryContainer.sprites:');
+      console.log('scene.inventoryContainer.itemIcons:');
       console.log(scene.inventoryContainer.itemIcons);
 
      scene.inventoryContainer.sprites.forEach((sprite) => {
