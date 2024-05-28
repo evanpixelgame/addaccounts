@@ -160,9 +160,12 @@ export default class Inventory {
 
   // find the index of the item in this.items, if it doesn't exist, existingItemIndex will be equal to -1
     const existingItemIndex = this.items.findIndex(existingItem => existingItem.name === item.sprite.name);
-
     const existingIconIndex = scene.inventoryContainer.itemIcons.findIndex(existingIcon => existingIcon.name === item.sprite.name);
     const existingSpriteIndex = scene.inventoryContainer.sprites.findIndex(existingSprite => existingSprite.name === item.sprite.name);
+   
+    console.log(`BEGINNING OF THE ITEM REMOVAL PROCESS DAMNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+   START SLICINGGGG AND DICINGGGGGGGG HERES THE BEGINNING OF THE PROCESS LOGGING BEFORE THE SLICES
+   SO I HOPE THIS REALLY WORKS`);
     console.log(`HEY YALL ITS THE EXISTING SPRITE INDEX`);
     console.log(existingSpriteIndex);
     console.log(`HEY YALL ITS THE CURRENT SPRITE THATS TRYING TO BE REMOVED. ie. inventoryContainers.sprites[existingSpriteIndex]`);
@@ -190,7 +193,14 @@ export default class Inventory {
    this.items.splice(existingItemIndex, 1);
 
    scene.inventoryContainer.itemIcons.splice(existingIconIndex, 1);
-   scene.inventoryContainer.sprites.slice(existingSpriteIndex, 1);
+   scene.inventoryContainer.sprites.splice(existingSpriteIndex, 1);
+
+       console.log(`HEY YALL ITS THE EXISTING SPRITE INDEX POST SLICE`);
+    console.log(existingSpriteIndex);
+    console.log(`HEY YALL ITS THE CURRENT SPRITE THATS TRYING TO BE REMOVED POST SLICE. ie. inventoryContainers.sprites[existingSpriteIndex]`);
+    console.log(scene.inventoryContainer.sprites[existingSpriteIndex]);
+    console.log(`HEY YALL ITS inventoryContainers.sprites ARRAY POST SLICE`);
+    console.log(scene.inventoryContainer.sprites);
    
 
     //after removing from this.items, also destroy the itemIcon
