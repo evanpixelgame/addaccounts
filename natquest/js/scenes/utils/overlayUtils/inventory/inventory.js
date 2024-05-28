@@ -193,17 +193,9 @@ export default class Inventory {
 
    //if the item was the last item, remove it from it from this.items
    this.items.splice(existingItemIndex, 1);
-
    scene.inventoryContainer.itemIcons.splice(existingIconIndex, 1);
    scene.inventoryContainer.sprites.splice(existingSpriteIndex, 1);
 
-       console.log(`HEY YALL ITS THE EXISTING SPRITE INDEX POST SLICE`);
-    console.log(existingSpriteIndex);
-    console.log(`HEY YALL ITS THE CURRENT SPRITE THATS TRYING TO BE REMOVED POST SLICE. ie. inventoryContainers.sprites[existingSpriteIndex]`);
-    console.log(scene.inventoryContainer.sprites[existingSpriteIndex]);
-    console.log(`HEY YALL ITS inventoryContainers.sprites ARRAY POST SLICE`);
-    console.log(scene.inventoryContainer.sprites);
-   
 
     //after removing from this.items, also destroy the itemIcon
     itemIconContainers.forEach((container) => {
@@ -224,6 +216,8 @@ export default class Inventory {
    console.log(item);
    item.parentContainer.isEmpty = true;
    this.items.splice(existingItemIndex, 1);
+   scene.inventoryContainer.itemIcons.splice(existingIconIndex, 1);
+   scene.inventoryContainer.sprites.splice(existingSpriteIndex, 1);
    item.destroy();
   }
 
