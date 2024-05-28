@@ -115,9 +115,10 @@ export default class BaseScene extends Phaser.Scene {
                 // scene.inventory.addItem(scene, item.sprite);
                 //scene.inventory.addItem(scene, listItemToAdd);
                 */
-                
+                console.log(item.sprite);
                 scene.inventory.addItem(scene, item.sprite.itemListRef);
-                console.log(scene.inventory.items);
+                console.log(scene.inventoryContainer.itemIcons);
+              //  console.log(scene.inventory.items);
                 //scene.inventory.addItemToContainer(scene, item);
             });
         };
