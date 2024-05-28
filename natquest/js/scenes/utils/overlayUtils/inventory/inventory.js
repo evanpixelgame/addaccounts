@@ -159,6 +159,8 @@ export default class Inventory {
     console.log(existingSpriteIndex);
     console.log(`HEY YALL ITS THE CURRENT SPRITE THATS TRYING TO BE REMOVED. ie. inventoryContainers.sprites[existingSpriteIndex]`);
     console.log(scene.inventoryContainer.sprites[existingSpriteIndex]);
+    console.log(`HEY YALL ITS inventoryContainers.sprites ARRAY`);
+    console.log(scene.inventoryContainer.sprites);
     
 
  // checks if the item is already in this.items, AND if the item is stackable, AND if there's more of one of the item
