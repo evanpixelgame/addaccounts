@@ -65,9 +65,17 @@ export default class Inventory {
       console.log(scene.inventoryContainer.itemIcons);
 
      scene.inventoryContainer.sprites.forEach((sprite) => {
-      if (sprite.textureKey === item.textureKey) {
+       if (sprite.textureKey === item.textureKey) {
+         console.log('MATCH FOUND IN THE TESTING BLOCK, LOGGING THE SPRITE, THEN THE ITEM');
+         console.log(sprite);
+         console.log(item);
+       
         sprite.quantity = this.items[existingItemIndex].quantity;
         sprite.itemQuant.setText(sprite.quantity);
+         
+        console.log('NEW INSIDE TESTING BLOCK LOG, AFTER CHANGING QUANTITY AND TEXT: LOGGING THE SPRITE, THEN THE ITEM');
+         console.log(sprite);
+         console.log(item);
       } 
      });
     }
