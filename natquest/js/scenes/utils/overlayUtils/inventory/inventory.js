@@ -154,7 +154,11 @@ export default class Inventory {
     const existingItemIndex = this.items.findIndex(existingItem => existingItem.name === item.sprite.name);
 
     const existingIconIndex = scene.inventoryContainer.itemIcons.findIndex(existingIcon => existingIcon.name === item.sprite.name);
-     const existingSprite = scene.inventoryContainer.sprites.findIndex(existingSprite => existingSprite.name === item.sprite.name);
+    const existingSpriteIndex = scene.inventoryContainer.sprites.findIndex(existingSprite => existingSprite.name === item.sprite.name);
+    console.log(`HEY YALL ITS THE EXISTING SPRITE INDEX`);
+    console.log(existingSpriteIndex);
+    console.log(`HEY YALL ITS THE CURRENT SPRITE THATS TRYING TO BE REMOVED. ie. inventoryContainers.sprites[existingSpriteIndex]`);
+    console.log(scene.inventoryContainer.sprites[existingSpriteIndex]);
     
 
  // checks if the item is already in this.items, AND if the item is stackable, AND if there's more of one of the item
@@ -176,7 +180,7 @@ export default class Inventory {
    this.items.splice(existingItemIndex, 1);
 
    scene.inventoryContainer.itemIcons.splice(existingIconIndex, 1);
-   scene.inventoryContainer.sprites.slice(existingSprite, 1);
+   scene.inventoryContainer.sprites.slice(existingSpriteIndex, 1);
    
 
     //after removing from this.items, also destroy the itemIcon
