@@ -21,9 +21,147 @@ export default class Inventory {
 //and then just destroy the rectangle or container after, probably pause or sleep activeScene too
   }
 */
+  
+    addItemasdfasd(scene, item) { //scene will refer to overlay scene, and item refers to the itemIcon
 
 
-  addItem(scene, item) {
+//****************************ESTABLISH STARTING CONSTANTS********************************************************************** 
+    //check if item is already in inventory.items, if it's not, existingItemIndex will return -1
+    const existingItemIndex = this.items.findIndex(existingItem => existingItem.name === item.name);
+    //access the itemIconContainers (the slots in the scene.inventoryContainer)
+    const itemIconContainers = scene.inventoryContainer.itemIconContainers;
+    //access the existing itemIcons in the inventoryContainer
+    const existingItemIcons = scene.inventoryContainer.itemIcons;
+    //access the items in inventory.items
+    const items = scene.inventory.items;
+//******************************************************************************************************************************
+    
+    
+//****************************ADJUST INVENTORY.ITEMS**************************************************************************** 
+    //if the item is already in inventory.items AND the item is stackable, increase the quantity of the item instead of adding it new 
+ if (existingItemIndex !== -1 && item.stackable) {
+    //  this.items[existingItemIndex].quantity += item.quantity; //make it later so can add multiple items at once without having to call multiple times
+    this.items[existingItemIndex].quantity++; //currently increases the quantity by 1 for each time called
+ }
+ else {
+   //if the item is not in inventory.items or the item is not stackable, add it to inventory.items
+      this.items.push(item); 
+    }
+//******************************************************************************************************************************
+
+  
+      console.log('item count should increase');
+      console.log(item);
+      console.log(scene.inventoryContainer.itemIcons);
+      console.log(existingItemIcons);
+      console.log(existingItemIcons[existingItemIndex]);
+//****************************INCREASE ITEMICON QUANTITY IF APPLICABLE**********************************************************
+    //if the inventoryContainer already has a sprite for the item, and the item is stackable
+      if (scene.inventoryContainer.itemIcons.includes(item) && item.stackable) {
+        console.log('item count should increase');
+        console.log(item.quantity);
+        console.log(existingItemIcons);
+        console.log(item);
+      //go through inventoryContainer's existing itemIcons
+      existingItemIcons.forEach((itemIcon) => {
+        //find the existing itemIcon that matches the texture key of item argument 
+        if (itemIcon.textureKey === item.textureKey) {
+          //set the quantity property of the itemIcon (item argument) to the quantity of the item in inventory.items 
+          item.quantity = this.items[existingItemIndex].quantity; //#### CURRENTLY CHECKS SPRITE QUANTITY, BUT SHOULD PROBABLY check itemIcon quantity
+          //set the text of the item icon to the item quantity from inventory.items
+          console.log('item count should increaseasdfasdfasdf', item.quantity);
+          item.itemCount.setText(item.quantity);
+          return;
+        }
+      });
+    }
+    //******************************************************************************************************************************
+    
+    
+    
+//****************************ADD A ITEM ICON FOR THE ITEM IF APPLICABLE********************************************************
+      
+      //***************************ADD THE ITEM ICON, THE CONTAINER FOR THE ITEM SPRITE AND ITEM COUNT**************************
+    
+    //if the inventoryContainer either doesn't already have a sprite for the item, or if the sprite is not stackable
+    //if either of those conditiosn are not true, will create a new sprite in the inventoryContainer
+    else {
+
+      //iterate through the itemIconContainers (the slots for the overlayScene.inventoryContainer that displays inventory items)
+      for (let i = 0; i < itemIconContainers.length; i++) {
+
+        //if the current itemIconContainer is full, move to next one, when an empty itemIconContainer is found, populate it 
+        if (itemIconContainers[i].isEmpty) {
+  
+          //create an itemIcon, a container that will hold the sprite texture image as well as the the itemCount representing the quantity
+          const itemIcon = scene.add.container(0, 0);
+          itemIcon.setSize(64, 64);
+
+          // Add properties of source Object (item argument) to the itemIcon
+          itemIcon.name = item.name;
+          itemIcon.textureKey = item.textureKey;
+          itemIcon.quantity = item.quantity; // Adjust to desired quantity if stacking is enabled
+          itemIcon.description = item.description;
+          itemIcon.flavorText = item.flavorText;
+          itemIcon.stackable = item.stackable;
+          itemIcon.consumable = item.consumable;
+          itemIcon.onUse = item.onUse;
+          itemIcon.onConsume = item.onConsume;
+          itemIcon.ContextMenu;
+
+           //add the itemIcon as a child of first available empty itemIconContainer
+          itemIconContainers[i].add(itemIcon);
+          //now that the itemIconcontainer[i] is filled, set its isEmpty property to false so another sprite itemIcon cannot occupy that same slot
+          itemIconContainers[i].isEmpty = false;
+
+          //set the itemIcon as interactive and make it draggable in the scene (the OverlayScene)
+          itemIcon.setInteractive({ draggable: true });
+          scene.input.setDraggable(itemIcon);
+          //call the setDragEvents method to set the drag start, drag, and drag end functions
+          this.setDragEvents(itemIcon, scene);
+
+          //*****************************************CREATE ITEM SPRITE (IMAGE OF THE ITEM)*****************************************************
+          
+          //Add the sprite, which creates an image of the item using the item argument's textureKey, then set scales
+          const itemSprite = scene.add.sprite(0, 0, item.textureKey);
+          itemSprite.setScale(.7);
+          //set the sprite for the item as a property of the itemIcon
+          itemIcon.sprite = itemSprite;
+          //add the item sprite to the itemIcon 
+          itemIcon.add(itemIcon.sprite);
+          //************************************************************************************************************************************
+  
+
+          //*****************************************CREATE ITEM COUNTER (TEXT THAT DISPLAYS QUANTITY OF STACKABLE ITEMS)***********************
+
+          //Create a itemCounter that tracks the quantity of stackable items 
+          const itemCount = scene.add.text(itemSprite.x - 20, itemSprite.y + 12, `${itemSprite.quantity}`);
+          itemCount.setOrigin(0, 0);
+          itemCount.fontSize = "12px";
+          itemCount.fill = "#ffffff";
+          //if the item is not stackable, make the itemCount invisible 
+          if (!item.stackable) {
+            itemCount.setVisible(false);
+          }
+          //set the itemCount text for the item as a property of the itemIcon
+          itemIcon.itemCount = itemCount;
+          //add the itemCount to the itemIcon
+          itemIcon.add(itemIcon.itemCount);
+          //************************************************************************************************************************************
+        
+          //*****************************************PUSH THE NEWLY CREATED ITEMICON************************************************************
+          //add the newly created itemIcon to an array of existing itemIcons in the inventoryContainer and then return
+          scene.inventoryContainer.itemIcons.push(itemIcon);
+          return;
+
+        }
+      }
+    }
+    }
+
+  
+ 
+  addItem0(scene, item) {
 
 
     //add to this.items first
@@ -133,98 +271,176 @@ export default class Inventory {
   }
   }
 
-  removeItem(scene, item) {
-      
-    //make remove take stackCount into consideration
+  addItem(scene, item) {
+
     console.log(item);
 
+//****************************ESTABLISH STARTING CONSTANTS********************************************************************** 
+    //check if item is already in inventory.items, if it's not, existingItemIndex will return -1
+    const existingItemIndex = this.items.findIndex(existingItem => existingItem.name === item.name);
+    //access the itemIconContainers (the slots in the scene.inventoryContainer)
+    const itemIconContainers = scene.inventoryContainer.itemIconContainers;
+    //access the existing itemIcons in the inventoryContainer
+    const existingItemIcons = scene.inventoryContainer.itemIcons;
+    //access the items in inventory.items
+    const items = scene.inventory.items;
+//******************************************************************************************************************************
+   
+
+        
+//****************************ADJUST INVENTORY.ITEMS**************************************************************************** 
+    //if the item is already in inventory.items AND the item is stackable, increase the quantity of the item instead of adding it new 
+ if (existingItemIndex !== -1 && item.stackable) {
+    //  this.items[existingItemIndex].quantity += item.quantity; //make it later so can add multiple items at once without having to call multiple times
+   this.items[existingItemIndex].quantity++; //currently increases the quantity by 1 for each time called
+   console.log('adjust quantity')
+ }
+ else {
+   //if the item is not in inventory.items or the item is not stackable, add it to inventory.items
+   this.items.push(item); 
+   console.log('push item now')
+    }
+    
+    console.log('ADJUST THIS.ITEMS LIST FROM ADDITEMS FUNC');
+    console.log(this.items);
+//******************************************************************************************************************************
+
+
+    if (scene.inventoryContainer.itemIcons.includes(item) && item.stackable === true && item.quantity > 1) {
+
+     scene.inventoryContainer.sprites.forEach((sprite) => {
+      if (sprite.textureKey === item.textureKey) {
+        sprite.quantity = this.items[existingItemIndex].quantity;
+        sprite.itemQuant.setText(sprite.quantity);
+      } 
+     });
+    }
+    
+    //else if (scene.inventoryContainer.itemIcons.includes(item) && item.stackable === true && item.quantity > 1) {  
+   // }
+
+    else {
+      console.log('this item aint in your inventory container or aint stackable, add new one');
+
+    for (let i = 0; i < itemIconContainers.length; i++) {
+
+      //if (itemIconContainers[i].dropZone.isEmpty === false) {
+      if (itemIconContainers[i].isEmpty === false) {
+        // const itemIcon = scene.add.sprite(0, 0, 'emptySlotSprite');
+        console.log('this itemIconContainer is filled, trying next one'); //can delete these 3 lines after testing
+      }
+      else { //check if slot is empty
+        
+        console.log('creatingnewinventorysprite::::::::')
+        const itemSprite = scene.add.sprite(0, 0, item.textureKey); //add sprite
+        //itemSpriteContainers[i].itemSprite = itemSprite;
+        // itemSprite.setDepth(100);
+
+        // Add properties of sourceObject to sprite
+        itemSprite.name = item.name;
+        itemSprite.textureKey = item.textureKey;
+        itemSprite.quantity = item.quantity; // Adjust to desired quantity if stacking is enabled
+        itemSprite.description = item.description;
+        itemSprite.flavorText = item.flavorText;
+        itemSprite.stackable = item.stackable;
+        itemSprite.consumable = item.consumable;
+        itemSprite.onUse = item.onUse;
+        itemSprite.onConsume = item.onConsume;
+
+        itemSprite.itemListRef = item;
+
+        itemSprite.setScale(.7);
+    
+        let lastClickTime = 0;
+        let doubleClickDelay = 4000; // Adjust this value as needed
+        itemSprite.ContextMenu;
   
+        const itemQuant = scene.add.text(itemSprite.x - 20, itemSprite.y + 12, `${itemSprite.quantity}`);
+        itemQuant.setOrigin(0, 0);
+        itemQuant.fontSize = "12px";
+        itemQuant.fill = "#ffffff";
+        itemQuant.setDepth(1000);
+
+      
+
+
+        const itemIcon = scene.add.container(0, 0);
+        itemIcon.sprite = itemSprite;
+        itemIcon.sprite.itemQuant = itemQuant;
+        itemIcon.setSize(64, 64);
+        itemIcon.add(itemIcon.sprite);
+        itemIcon.add(itemIcon.sprite.itemQuant);
+        
+        itemIcon.setInteractive({ draggable: true });
+
+        scene.input.setDraggable(itemIcon);
+        this.setDragEvents(itemIcon, scene);
+
+        itemIconContainers[i].add(itemIcon); //add the icon as child of first available iconContainer
+        itemIconContainers[i].isEmpty = false; //change slot to not empty
+
+        scene.inventoryContainer.itemIcons.push(item);
+        scene.inventoryContainer.containerSprites.push(item);
+        scene.inventoryContainer.sprites.push(itemIcon.sprite);
+        //  console.log(itemIcon);
+
+        return;
+
+      }
+    }
+  }
+  }
+  
+
+  removeItem(scene, item) { //scene refers to OverlayScene and item refers to the ItemIcon
+
+  // find the index of the item in this.items, if it doesn't exist, existingItemIndex will be equal to -1
   const existingItemIndex = this.items.findIndex(existingItem => existingItem.name === item.sprite.name);
-    console.log(this.items[existingItemIndex]);
-  
-    //make sure to reduce amount in this.items and scene.inventoryContainer sprites
-  if (existingItemIndex !== -1 && item.sprite.stackable && this.items[existingItemIndex].quantity > 1 && item.sprite.quantity > 1) { // Item is stackable and already exists
-      //this.items[existingItemIndex].quantity += item.quantity; //make it later so can add multiple items at once without having to call multiple times
+
+ // checks if the item is already in this.items, AND if the item is stackable, AND if there's more of one of the item
+ if (existingItemIndex !== -1 && item.sprite.stackable && this.items[existingItemIndex].quantity > 1) {  
+    //this.items[existingItemIndex].quantity += item.quantity; //make it later so can add multiple items at once without having to call multiple times
+      
+   //while the condition remains true, decrease the item's quantity and the itemCount of the ItemIcon text by 1 each time removeItem is called
       this.items[existingItemIndex].quantity--; //currently increases the quantity by 1 for each time called
-     item.sprite.quantity--;
+      item.sprite.quantity--;
       item.sprite.itemQuant.setText(this.items[existingItemIndex].quantity);
     } 
-      else {
-          // otherwise continue with the removal logic
-    console.log('attemptingtoremoveItem from inventory.removeItem');
+   
+   // checks if the item is already in this.items, AND if the item is stackable, AND if there's only one of the item
+  else if (existingItemIndex !== -1 && item.sprite.stackable && this.items[existingItemIndex].quantity === 1) {
+
     const itemIconContainers = scene.inventoryContainer.itemIconContainers;
-    const index = this.items.indexOf(item);
-    console.log(index);
-    if (existingItemIndex !== -1) {
-      this.items.splice(existingItemIndex, 1);
-    }
 
+   //if the item was the last item, remove it from it from this.items
+    this.items.splice(existingItemIndex, 1);
+
+    //after removing from this.items, also destroy the itemIcon
     itemIconContainers.forEach((container) => {
-      console.log(container);
       if (container.list.length !== 0) {
-      //console.log(container.first);
-      //console.log(container.first.texture.key);
       let firstContainer = container.getAll().find(child => child instanceof Phaser.GameObjects.Container);
-      let firstSprite = firstContainer.getAll().find(child => child instanceof Phaser.GameObjects.Sprite);
-      
-    //  if (item.list.length !== 0) {
-    //  let checkItem = item.getAll().find(child => child instanceof Phaser.GameObjects.Sprite);
-  //  }
-    
-    
 
-      console.log(firstContainer);
-      console.log(firstSprite);
-      console.log(item);
-
-      if (firstContainer.sprite.textureKey === item.sprite.textureKey) { //later switch with container.first.texture or .textureKey
-       // container.remove(container.first);
-       //firstContainer.destroy();
-       console.log('fixing for a switching');
-     // firstSprite.destroy();
-     console.log(firstContainer);
-     firstContainer.destroy();
-    // firstSprite.destroy();
-        container.isEmpty = true;
-      } else {
-        //console.log('wrong container');
-      }
-    } else {
-      console.log('emptyContainer');
-    }
+         if (firstContainer.sprite.textureKey === item.sprite.textureKey) { //later switch with container.first.texture or .textureKey
+           firstContainer.destroy();
+           container.isEmpty = true;  
+        }
+      }  
     });
-    console.log(this.items);
-    console.log(itemIconContainers);
+    }
+    
+  //if the item is not stackable, then just remove the item from this.items and destroy the itemIcon of the container clicked 
+ else {
+   console.log('this must be a non stackable item');
+   console.log(item);
+   item.parentContainer.isEmpty = true;
+   this.items.splice(existingItemIndex, 1);
+   item.destroy();
   }
+
+  //rechecks this.items after the removals
+  console.log('THIS IS THE NEW PRINTING OF THIS.ITEMS');
   console.log(this.items);
   }
-
-dropItem(scene, item) {
-  console.log(`should be dropping a new trackkkk`)
-  const activeScene = scene.activeScene;
-  let dropItem = item.sprite;
-  console.log(scene);
-  console.log(item);
-  console.log(dropItem);
-  console.log(activeScene.player);
-
-  let randomInteger = Phaser.Math.Between(1, 12);
-  let dropX = this.player.x + 20 + randomInteger;
-  let dropY = this.player.y + 20 + randomInteger;
-
-  //const droppedItem = activeScene.add.sprite(this.player.x + 20 + randomInteger, this.player.y + 30  + randomInteger, item.textureKey);
-  const droppedItem = activeScene.add.sprite(dropX, dropY, item.textureKey);
- //const droppedItem = activeScene.add.sprite(activeScene.player.x + 30, activeScene.player.x + 30, dropItem.textureKey);
-  droppedItem.setScrollFactor(1, 1);
-  droppedItem.setScale(.4);
-  droppedItem.setInteractive();
-  droppedItem.on('pointerdown', function (pointer, localX, localY, event) {
-      console.log('readding the item to inventory container');
-      scene.inventory.addItem(dropItem);
-     // scene.inventory.addItemToContainer(dropItem);
-    });
-  console.log(item);
-}
 
 
   displayFullInventory() {

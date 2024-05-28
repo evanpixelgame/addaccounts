@@ -4,7 +4,7 @@ import poisonPotionWeak from './potions/poisonPotionWeak.js';
 import manaPotionWeak from './potions/manaPotionWeak.js';
 import wealthPotion from './potions/wealthPotion.js';
 import emeraldRing from './equipment/rings/emeraldRing.js';
-import itemNull from './itemNull.js';
+//import itemNull from './itemNull.js';
 
 /*
 const wealthPotion = new Item(
@@ -28,7 +28,7 @@ const wealthPotion = new Item(
 
 const itemsListFull = {
 
-itemNull,
+//itemNull,
 healthPotionWeak,
 poisonPotionWeak,
 manaPotionWeak,

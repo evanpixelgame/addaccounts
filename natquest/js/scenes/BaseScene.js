@@ -1,3 +1,4 @@
+
 import { PlayerSprite } from './PlayerSprite.js';
 import { createMap, createMapBoundary } from './utils/baseSceneUtils/createMap.js';
 import { sensorMapSet, createCollisionObjects } from './utils/baseSceneUtils/mapSetter.js';
@@ -83,6 +84,45 @@ export default class BaseScene extends Phaser.Scene {
 
 
 
+         const itemDropHandler = (scene, item) => {
+
+            const activeScene = scene.activeScene;
+
+            //adds random offset to item drops so they dont all stack directly on top if dropping a lot at once
+            let randomInteger = Phaser.Math.Between(1, 12);
+            let dropX = this.player.x + 20 + randomInteger;
+            let dropY = this.player.y + 20 + randomInteger;
+
+            //const droppedItem = activeScene.add.sprite(this.player.x + 20 + randomInteger, this.player.y + 30  + randomInteger, item.textureKey);
+            const droppedItem = activeScene.add.sprite(dropX, dropY, item.sprite.textureKey);
+            droppedItem.setScale(.35);
+            
+            // Set the rectangle interactive so it can receive input events
+            droppedItem.setInteractive();
+            // Set up a click event handler for the rectangle
+            droppedItem.on('pointerdown', function () {
+                droppedItem.destroy();
+                /*
+                let listItemToAdd;
+                console.log('scene inventory testting testting testing testing testing testing');
+                 Object.values(scene.itemsListFull).forEach((listItem) => {
+                        if (listItem.name === item.sprite.name) {
+                            listItemToAdd = listItem;
+                        }
+                 });
+                console.log(listItemToAdd);
+                console.log(scene.inventory.items);
+                // scene.inventory.addItem(scene, item.sprite);
+                //scene.inventory.addItem(scene, listItemToAdd);
+                */
+                
+                scene.inventory.addItem(scene, item.sprite.itemListRef);
+                console.log(scene.inventory.items);
+                //scene.inventory.addItemToContainer(scene, item);
+            });
+        };
+
+/*
         const itemDropHandler = (scene, item) => {
 
             const activeScene = scene.activeScene;
@@ -101,15 +141,36 @@ export default class BaseScene extends Phaser.Scene {
             // Set up a click event handler for the rectangle
             droppedItem.on('pointerdown', function () {
                 droppedItem.destroy();
+                console.log(scene.inventory.items);
+                if (scene.inventory.items.includes(item)) {
+                    scene.inventory.addItem(scene, item.sprite);
+                    //scene.inventory.addItemToContainer(scene, item);
+                } else {
+                droppedItem.destroy();
                 console.log(item.sprite);
                 const existingItemIndex = scene.inventory.items.findIndex(existingItem => existingItem.name === item.sprite.name);
                 const readdedItem = scene.inventory.items[existingItemIndex];
+
                 console.log(readdedItem);
-                console.log(scene.inventory.items[existingItemIndex]);
-                scene.inventory.addItem(scene, readdedItem);
-                //scene.inventory.addItemToContainer(scene, item);
+                if (readdedItem === undefined) {
+                    let listItemToAdd;
+                    console.log('define readded item')
+                    Object.values(scene.itemsListFull).forEach((listItem) => {
+                        if (listItem.name === item.sprite.name) {
+                            listItemToAdd = listItem;
+                        }
+                    });
+                    scene.inventory.addItem(scene, listItemToAdd);
+
+                } else {
+                    scene.inventory.addItem(scene, readdedItem);
+                }
+            }
             });
         };
+
+        */
+        
 
         //subscribe to listen for dropItem emits
         customEmitter.on('dropItem', itemDropHandler);

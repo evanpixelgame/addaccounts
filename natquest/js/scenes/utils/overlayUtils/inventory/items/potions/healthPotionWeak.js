@@ -4,7 +4,7 @@ import customEmitter from '../../../../globalUtils/emitter.js';
 import Item from '../itemsClass.js';
 
 const healthPotionWeak = new Item(
-    'health Potion', //name
+    'Health Potion', //name
     'healthPotionWeak', //texture key
     1, //quantity
     'Restores 10 HP. Consumable.', // use description
