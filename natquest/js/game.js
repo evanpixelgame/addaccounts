@@ -1,5 +1,5 @@
 import { Preloader } from "./scenes/Preloader.js";
-//import { AuthorizationScene } from "./scenes/AuthorizationScene.js";
+import { Login } from "./scenes/Login.js";
 
 const config = {
     type: Phaser.AUTO,
@@ -19,7 +19,8 @@ const config = {
         },
     },
     scene: [
-        Preloader,
+        Login,
+       //Preloader,
        //AuthorizationScene,
     ],
     interpolation: true,
