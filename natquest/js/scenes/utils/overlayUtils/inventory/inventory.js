@@ -50,6 +50,19 @@ export default class Inventory {
 
 
     if (scene.inventoryContainer.itemIcons.includes(item) && item.stackable === true && item.quantity > 1) {
+      console.log(`testing block for readding items past initial, function in question is:
+           scene.inventoryContainer.sprites.forEach((sprite) => {
+      if (sprite.textureKey === item.textureKey) {
+        sprite.quantity = this.items[existingItemIndex].quantity;
+        sprite.itemQuant.setText(sprite.quantity);
+      } 
+     });`);
+      console.log('item:');
+      console.log(item);
+      console.log('scene.inventoryContainer.sprites:');
+      console.log(scene.inventoryContainer.sprites);
+      console.log('scene.inventoryContainer.sprites:');
+      console.log(scene.inventoryContainer.itemIcons);
 
      scene.inventoryContainer.sprites.forEach((sprite) => {
       if (sprite.textureKey === item.textureKey) {
