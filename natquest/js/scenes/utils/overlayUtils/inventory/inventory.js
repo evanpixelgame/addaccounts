@@ -165,6 +165,7 @@ export default class Inventory {
     const existingIconIndex = scene.inventoryContainer.itemIcons.findIndex(existingIcon => existingIcon.name === item.sprite.name);
     const existingSpriteIndex = scene.inventoryContainer.sprites.findIndex(existingSprite => existingSprite.name === item.sprite.name);
    
+    /*
     console.log(`BEGINNING OF THE ITEM REMOVAL PROCESS DAMNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
    START SLICINGGGG AND DICINGGGGGGGG HERES THE BEGINNING OF THE PROCESS LOGGING BEFORE THE SLICES
    SO I HOPE THIS REALLY WORKS`);
@@ -174,7 +175,7 @@ export default class Inventory {
     console.log(scene.inventoryContainer.sprites[existingSpriteIndex]);
     console.log(`HEY YALL ITS inventoryContainers.sprites ARRAY`);
     console.log(scene.inventoryContainer.sprites);
-    
+*/
 
  // checks if the item is already in this.items, AND if the item is stackable, AND if there's more of one of the item
  if (existingItemIndex !== -1 && item.sprite.stackable && this.items[existingItemIndex].quantity > 1) {  
