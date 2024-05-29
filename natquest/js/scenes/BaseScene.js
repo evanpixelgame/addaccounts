@@ -90,9 +90,10 @@ export default class BaseScene extends Phaser.Scene {
 
             //adds random offset to item drops so they dont all stack directly on top if dropping a lot at once
             let randomInteger = Phaser.Math.Between(1, 12);
-            let dropX = this.player.x + 20 + randomInteger;
-            let dropY = this.player.y + 20 + randomInteger;
-
+           // let dropX = this.player.x + 20 + randomInteger;
+          //  let dropY = this.player.y + 20 + randomInteger;
+            let dropX = activeScene.player.x + 20 + randomInteger;
+            let dropY = activeScene.player.y + 20 + randomInteger;
             //const droppedItem = activeScene.add.sprite(this.player.x + 20 + randomInteger, this.player.y + 30  + randomInteger, item.textureKey);
             const droppedItem = activeScene.add.sprite(dropX, dropY, item.sprite.textureKey);
             droppedItem.setScale(.35);

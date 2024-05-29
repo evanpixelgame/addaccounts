@@ -19,8 +19,8 @@ const config = {
         },
     },
     scene: [
-        Login,
-       //Preloader,
+        //Login,
+       Preloader,
        //AuthorizationScene,
     ],
     interpolation: true,
