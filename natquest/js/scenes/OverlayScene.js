@@ -94,10 +94,40 @@ export default class OverlayScene extends Phaser.Scene {
      this.inventory.addItem(this, itemsListFull.healthPotionWeak);
             //  this.inventory.addItem(this, item); 
             
-    };
+        };
+
+        
+        const itemDropHandler = (scene, item) => {
+             console.log('THISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCETHISSHOULDONLYAPPEARONCE')
+
+            const activeScene = scene.activeScene;
+            console.log(`BELOW consoling active scene:`);
+            console.log(activeScene);
+
+            //adds random offset to item drops so they dont all stack directly on top if dropping a lot at once
+            let randomInteger = Phaser.Math.Between(1, 12);
+
+            let dropX = activeScene.player.x + 20 + randomInteger;
+            let dropY = activeScene.player.y + 20 + randomInteger;
+           
+            const droppedItem = activeScene.add.sprite(dropX, dropY, item.sprite.textureKey);
+            droppedItem.setScale(.35);
+            droppedItem.setInteractive();
+
+
+            console.log(`BELOW consoling dropped item:`);
+            console.log(droppedItem);
+
+            // Set up a click event handler for the rectangle
+            droppedItem.on('pointerdown', function () {
+                droppedItem.destroy();
+                scene.inventory.addItem(scene, item.sprite.itemListRef);
+            });
+        };
 
         customEmitter.on('removeItem', itemRemovalHandler);
         customEmitter.on('addItem', itemAddHandler);
+        customEmitter.on('dropItem', itemDropHandler);
 
     }
 

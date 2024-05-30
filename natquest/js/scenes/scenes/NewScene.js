@@ -1,5 +1,6 @@
 import BaseScene from '../BaseScene.js';
 import { sensorHandler } from '../utils/collisionHandlers/newSceneCollisionHandler.js';
+import customEmitter from '../utils/globalUtils/emitter.js'; //delete i think this isnt needed
 
 export default class NewScene extends BaseScene {
     constructor() {

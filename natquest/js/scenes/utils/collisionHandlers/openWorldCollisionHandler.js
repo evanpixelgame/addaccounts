@@ -53,8 +53,8 @@ export function sensorHandler(scene, map, player, transitionSensors) {
       // If 'NewScene' is not active, launch it
         scene.scene.pause('OpenWorld');
         scene.scene.launch('NewScene', {
-            player: scene.player,
-            engine: scene.matter.world,
+           player: scene.player,
+           engine: scene.matter.world,
             world: scene.world,
         });
         customEmitter.emit('activeSceneChanged', 'NewScene');

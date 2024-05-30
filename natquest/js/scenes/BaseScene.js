@@ -1,6 +1,7 @@
 
 import { PlayerSprite } from './PlayerSprite.js';
 import { createMap, createMapBoundary } from './utils/baseSceneUtils/createMap.js';
+import { itemDropper } from './utils/baseSceneUtils/eventListeners.js';
 import { sensorMapSet, createCollisionObjects } from './utils/baseSceneUtils/mapSetter.js';
 import { createCameraConstraints } from './utils/baseSceneUtils/cameraConstraints.js';
 import { createKeyboardAssignments, createMobileControls } from './utils/baseSceneUtils/playerControls.js';
@@ -14,6 +15,7 @@ export default class BaseScene extends Phaser.Scene {
     constructor(key) {
         super({ key: key });
 
+        this.eventListeners = [];    
         this.engine = null;
         this.world = null;
         this.map = null;
@@ -81,38 +83,6 @@ export default class BaseScene extends Phaser.Scene {
 
         //creates the animations associated with the user input, ie. 'a' key triggers 'walk-left' animation
         createPlayerAnimations(this);
-
-
-
-         const itemDropHandler = (scene, item) => {
-
-            const activeScene = scene.activeScene;
-            console.log(`BELOW consoling active scene:`);
-            console.log(activeScene);
-
-            //adds random offset to item drops so they dont all stack directly on top if dropping a lot at once
-            let randomInteger = Phaser.Math.Between(1, 12);
-
-            let dropX = activeScene.player.x + 20 + randomInteger;
-            let dropY = activeScene.player.y + 20 + randomInteger;
-           
-            const droppedItem = activeScene.add.sprite(dropX, dropY, item.sprite.textureKey);
-            droppedItem.setScale(.35);
-            droppedItem.setInteractive();
-
-
-            console.log(`BELOW consoling dropped item:`);
-            console.log(droppedItem);
-
-            // Set up a click event handler for the rectangle
-            droppedItem.on('pointerdown', function () {
-                droppedItem.destroy();
-                scene.inventory.addItem(scene, item.sprite.itemListRef);
-            });
-        };
-
-        //subscribe to listen for dropItem emits
-        customEmitter.on('dropItem', itemDropHandler);
 
     }
 
