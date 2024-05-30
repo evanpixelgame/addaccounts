@@ -1,5 +1,6 @@
 import BaseScene from '../BaseScene.js';
 import NewScene from './NewScene.js';
+import customEmitter from '../utils/globalUtils/emitter.js'; //delete i think this isnt needed
 
 export default class NextRoom extends BaseScene {
     constructor() {
