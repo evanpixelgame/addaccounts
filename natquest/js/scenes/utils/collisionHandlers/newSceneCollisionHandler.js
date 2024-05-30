@@ -9,6 +9,8 @@ import customEmitter from '../globalUtils/emitter.js';
 
 export function sensorHandler(scene, map, player, transitionSensors) {
 
+    scene.scene.add('NextRoom', NextRoom);
+
   player.scene.matter.world.on('collisionstart', (eventData) => {
     // Loop through pairs of colliding bodies
     eventData.pairs.forEach(pair => {
@@ -25,28 +27,28 @@ export function sensorHandler(scene, map, player, transitionSensors) {
     // Check if 'NewScene' is already active
     //const newScene = scene.scene.get('NextRoom');
     if (scene.NewSceneLaunched == true) {
-      console.log('You hit the door sensor again!');
+      console.log('You hit the NEXT ROOM SENSOR AGAIN!');
         // If 'NewScene' is already active, resume it
         scene.scene.pause('NewScene');
         scene.scene.resume('NextRoom');
         scene.scene.bringToTop('NextRoom');
       customEmitter.emit('activeSceneChanged', 'NextRoom');
     } else {
-      console.log('youve hit the door sensor for the first time');
+      console.log('youve hit the NEXT ROOM SENSOR FOR FIRST TIME');
       console.log('x position: ' + scene.player.x + '  y position: ' + scene.player.y);
       scene.player.setPosition(560, 685);
       console.log('x position: ' + scene.player.x + '  y position: ' + scene.player.y);
-       
+    //  customEmitter.emit('activeSceneChanged', 'NextRoom');
       scene.NewSceneLaunched = true;
       // If 'NewScene' is not active, launch it
         scene.scene.pause('NewScene');
-       scene.scene.add('NextRoom', NextRoom);
+      // scene.scene.add('NextRoom', NextRoom);
         scene.scene.launch('NextRoom', {
             player: scene.player,
             engine: scene.matter.world,
             world: scene.world,
         });
-       customEmitter.emit('activeSceneChanged', 'NextRoom');
+   customEmitter.emit('activeSceneChanged', 'NextRoom');
     }
     break;
               
@@ -59,20 +61,6 @@ export function sensorHandler(scene, map, player, transitionSensors) {
             customEmitter.emit('activeSceneChanged', 'OpenWorld');
               break;
               
-            case 'InsideRoomToNextRoom':
-              
-                scene.scene.pause('NewScene');
-                scene.scene.add('NextRoom', NextRoom);
-                scene.scene.launch('NextRoom'); 
-              /*
-              console.log('take me back home again daddy');
-              scene.scene.start('NextRoom', {
-                player: scene.player,
-                speed: scene.speed,
-                controls: scene.controls, // Passing the controls object here
-              });
-              */
-              break;
 
                case 'fastZone':  //Make sure to reverse the velocityChange in the collisionend case so that it acts as an overlap sensor
               console.log('cue sirens, +2 speed');
